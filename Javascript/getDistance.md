@@ -1,6 +1,6 @@
 # 두 좌표사이의 거리 구하기
 
-npm 모듈 중 `geolib 설치
+npm 모듈 중 `geolib` 설치
 
     $ npm i geolib
 
