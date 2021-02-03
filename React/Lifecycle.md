@@ -29,3 +29,14 @@
 ### 언마운트
 - 마운트의 반대 과정, 즉 컴포넌트를 DOM에서 제거하는 것
 - `componentWillUnmout` : 컴포넌트가 웹 브라우저상에서 사라지기 전에 호출하는 메서드
+
+### 예외처리
+- `componentDidCatch` : 컴포넌트 렌더링 도중에 에러가 발생했을 때 오류 UI를 보여 줌
+```
+componentDidCatch(error, info) {
+    this.setState({
+        error: true
+    });
+    console.log({ error, info });
+}
+```
