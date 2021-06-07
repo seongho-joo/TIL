@@ -27,3 +27,11 @@ $ npm install typescript
   - **module** : 컴파일된 코드가 어떤 모듈 시스템을 사용할지 정의
   - **strcit** : 모든 타입 체킹 옵션을 활성화할지 정의
   - **esModuleInterop** : `commonjs` 모듈 형태로 이루어진 파일을 es2015 모듈 형태로 불러올 수 있게 함
+
+## Typescript 실행
+```
+// global
+$ tsc test.ts
+// local
+$ npx tsc test.ts
+```
