@@ -1,0 +1,113 @@
+# Typescript 기본 타입
+- Number
+  ```
+  let num: number = 1
+  num = '1' // 오류
+  ```
+- String
+  ```
+  let str: string = 'This is this'
+  str = 1237874 // 오류
+  ```
+- Boolean
+  ```
+  let flag: boolean = true
+  ```
+- Array
+  ```
+  let arr: number[] = [1, 2, 3, 4]
+  // 제네릭 배열 타입
+  let arr: Array<number> = [1, 2, 3]
+  ```
+- Tuple
+  ```
+  // 튜플 타입 선언
+  let code: [number, string]
+  // 초기화
+  code = [0, 'success'] // 성공
+  // 잘못된 초기화
+  code = ['success', 0] // 오류
+  ```
+- Enum
+  ```
+  enum Color {Red, Green, Blue}
+  let c: Color = Color.Green;
+  ```
+- Any
+  - 알지 못하는 타입을 표현해야 할 수도 있을때 사용
+  - 컴파일 중에 점진적으로 타입 검사를 하지 않을 수 있음
+  - `any`타입은 타입의 일부만 알고 전체는 알지 못할 때 유용함
+  ```
+  let notSure: any = 4;
+  notSure = 'maybe a string instead';
+  notSure = false;
+
+  let list: any = [1, true, "free"];
+  list[1] = 100;
+  ```
+- Void
+  - `void`는 어떤 타입도 존재할 수 없음을 나타냄
+  - `any`의 반대 타입
+  - `undefined`만 할당할 수 있음
+  ```
+  let warnUser: void = () => {
+    console.log('This is my warning message')
+  }
+  let unusable: void = undefined;
+  unusable = null; // 성공 `--strictNullChecks` 을 사용하지 않을때만
+  ```
+- Null & Undefined
+  - `null` 과 `undefined` 둘 다 각각 자신의 타입으로 `undefined`, `null`로 사용
+  ```
+  // 이 밖에 이 변수들에 할당할 수 있는 값은 없음
+  let u: undefined = undefined;
+  let n: null = null;
+  ```
+- Never
+  - `never` 타입은 절대 발생할 수 없는 타입을 나타냄
+  - 함수 표현식이나 화살표 함수 표현식에서 항상 오류를 발생시키거나 절대 반환하지 않는 반환 타입으로 쓰임
+  - `never` 타입은 모든 타입에 할당 가능한 하위 타입이지만 어떤 타입도 `never`에 할당할 수 있거나, 하위 타입이 아님
+  ```
+  // never를 반환하는 함수는 함수의 마지막에 도달할 수 없음
+  function error(message: string): never {
+      throw new Error(message);
+  }
+
+  // 반환 타입이 never로 추론
+  function fail() {
+      return error("Something failed");
+  }
+
+  // never를 반환하는 함수는 함수의 마지막에 도달할 수 없음
+  function infiniteLoop(): never {
+      while (true) {
+      }
+  }
+  ```
+- Object
+  - `object`는 원시 타입이 아닌 타입을 나타냄
+  ```
+  declare function create(o: object | null): void;
+
+  create({ prop: 0 }); // 성공
+  create(null); // 성공
+
+  create(42); // 오류
+  create("string"); // 오류
+  create(false); // 오류
+  create(undefined); // 오류
+  ```
+- 타입 단언 (Type assertions)
+  - Typescript보다 개발자가 값에 대해 더 잘 알고 있을때 사용
+  - 어떤 엔티티의 실제 타입이 현재 타입보다 더 구체적일때 발생
+  ```
+  // angle-bracket 문법
+  let someValue: any = "this is a string";
+
+  let strLength: number = (<string>someValue).length;
+  
+  // as 문법
+  let someValue: any = "this is a string";
+
+  let strLength: number = (someValue as string).length;
+  ```
