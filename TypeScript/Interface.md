@@ -1,0 +1,155 @@
+# Typescript Interface
+
+## Interface
+- 인터페이스는 상호 간에 정의한 약속 혹은 규칙을 의미
+
+## 첫 번째 인터페이스 (Our First Interface)
+```
+// 기본 예
+const printLabel = (labelObj: {label: string}) => {
+  console.log(labelObj.label);
+};
+
+let myObj = { size: 10, label: 'Size 10 Object' };
+printLabel(myObj);
+
+// interface 적용
+interface LabeledValue {
+  label: string;
+}
+
+const printLabel = (labelObj: LabeledValue) => {
+  console.log(labelObj.label);
+};
+
+let myObj = { size: 10, label: 'Size 10 Object' };
+printLabel(myObj);
+```
+- `LabelValue` 인터페이스는 이전 예제의 요구 사항을 똑같이 기술하는 이름으로 사용할 수 있음. 
+- 이 인터페이스는 여전히 `string` 타입의 `label` 프로퍼티 하나를 가진다는 것을 의미함.
+- 타입 검사는 프로퍼티들의 순서를 요구하지 않음.
+- 인터페이스가 요구하는 프로퍼티들이 존재하는지와 프로퍼티들이 요구하는 타입을 가졌는지 확인함.
+
+## 선택적 프로퍼티 (Optional Properties)
+- 인터페이스의 모든 프로퍼티가 필요한 것은 아니기 때문에 어떤 조건에서만 존재하거나 아예 없을 수도 있음.
+- 선택적 프로퍼티는 선언에서 프로터티 이름 끝에 `?` 를 붙어 표시
+```
+interface SquareConfig {
+    color?: string;
+    width?: number;
+}
+
+function createSquare(config: SquareConfig): {color: string; area: number} {
+    let newSquare = {color: "white", area: 100};
+    if (config.color) {
+        newSquare.color = config.color;
+    }
+    if (config.width) {
+        newSquare.area = config.width * config.width;
+    }
+    return newSquare;
+}
+
+let mySquare = createSquare({color: "black"});
+```
+
+## 읽기전용 프로퍼티 (Readonly Properties)
+- 인터페이스로 객체를 처음 생성할 때만 값을 할당하고 그 이후에는 변경할 수 없는 속성을 의미
+- `readonly` 속성을 앞에 붙임
+```
+interface Point {
+  readonly x: number;
+  readonly y: number;
+}
+
+let p1: Point = { x: 10, y: 20};
+p1.x = 1 // 할당 후 수정 불가 오류
+```
+
+## 읽기 전용 배열 (readonly Array)
+- 배열을 선언할 때 `ReadonlyArray<T>` 타입을 사용하여 읽기 전용 배열을 생성할 수 있음
+```
+let a: number[] = [1, 2, 3, 4];
+let ro: ReadonlyArray<number> = a;
+
+ro[0] = 12; // 오류!
+ro.push(5); // 오류!
+ro.length = 100; // 오류!
+a = ro; // 오류!
+```
+
+#### 📝 `readonly` vs `const`
+변수는 `const`를 사용하고 프로퍼티는 `readonly`를 사용함.
+
+## 초과 프로퍼티 검사 (Excess Property Checks)
+타입스크립트는 인터페이스를 이용하여 객체를 선언할 때 좀 더 엄일한 속성 검사를 진행
+```
+interface SqueareConfig {
+  color?: string;
+  width?: number;
+}
+
+function createSquare(config: SquareConfig): {color: string; area: number} {
+  // ...
+}
+
+let mySquare = createSquare({colour: "red", width: 100});
+```
+- javascript에선 `width` 프로퍼티는 적합하고, `color` 프로퍼티는 없고, 추가 `colour` 프로퍼티는 중요하지 않기 때문에 프로그램이 올바르게 작성되었다고 생각할 수 있음.
+- typescript는 이 코드에 버그가 있을 수 있다고 생각함. 객체 리터럴은 다른 변수에 할당할 때나 인수로 전달할 때, 특별한 처리를 받고 초과 프로퍼티 검사를 받음.
+- 만약 객체 리터럴이 "대상 타입"을 갖고 있지 않은 프로퍼티를 갖고 있으면, 에러 발생
+- 이 검사를 피하는 방법
+```
+let mySquare = createSquare({opacity: 0.5, width: 100} as SquareConfing);
+```
+- 인터페이스 정의하지 않은 속성들을 추가로 사용하고 싶을 때는 아래와 같은 방법 사용.
+```
+interface SqueareConfig {
+  color?: string;
+  width?: number;
+  [propName: string]: any;
+}
+```
+
+## 함수 타입
+인터페이스는 함수의 타입을 정의할 때에도 사용할 수 있음.
+```
+interface login {
+  (username: string, password: string): boolean;
+}
+```
+함수의 인자의 타입과 반환 값의 타입을 정함.
+```
+const loginUser: login = (id: string, pw: string) {
+  console.log('로그인 완료');
+  return true;
+}
+```
+
+## 인덱서블 타입 (Indexable Types)
+- 인덱서블 타입은 인덱싱 할때 해당 반환 유형과 함께 객체를 인덱싱하는 데 사용할 수 있는 타입을 인덱스 시그니처를 가지고 있음.
+- 문자열 인덱스 시그니처는 "사전" 패턴을 기술하는데 강력한 방법이지만, 모든 프로퍼티들이 반환 타입과 일치하도록 강제함. 문자열 인덱스가 `obj.property`가 `obj["property"]` 로도 이용 가능함을 알려줌.
+```
+interface stringArray {
+  [index: number]: string;
+}
+
+let myArray: stringArray;
+myArray = ['Bob', 'Fred'];
+
+let myStr: string = myArray[0];
+```
+
+## 클래스 타입 (Class Types)
+C#이나 Java처럼 클래스가 일정 조건을 만족하도록 타입 규칙을 정할 수 있음.
+### 인터페이스 구현하기
+```
+interface ClockInterface {
+  currentTime: Date;
+}
+
+class Clock imprements ClockInterface {
+  currentTime: Date = new Date();
+  constructor(h: number, m: number) { }
+}
+```
