@@ -1,4 +1,4 @@
-# Java Map 컬렉션 for-each 문 사용법
+# Map 컬렉션 for-each 문
 
 ```cpp
 map<string, int> m;
@@ -57,4 +57,14 @@ for (Map.Entry<String, Integer> m : map.entrySet()) {
 map.forEach((key, value) -> {
     System.out.println(key + " : " + value);
 });
+```
+
+# String for-each 문
+자바에서 문자열 for-each 문을 사용하려면 `.toCharArray()` 메서드를 사용해야한다.
+```java
+String str = "abcd"
+
+for (char c : str.toCharArray()) {
+    ...
+}
 ```
