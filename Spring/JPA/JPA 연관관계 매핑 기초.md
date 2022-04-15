@@ -1,11 +1,14 @@
 > 인프런 자바 ORM 표준 JPA 프로그래밍 - 기본편 강의 내용 정리
 <details>
-<summay>ToC</summary>
+<summaRy>ToC</summary>
 
+- [연관관계 매핑](#연관관계-매핑)
+  - [단방향 연관관계](#단방향-연관관계)
+  - [양방향 연관관계](#양방향-연관관계)
 </details>
 
 ---
-
+## 연관관계 매핑
 연관관계 매핑이란, **객체의 참조와 테이블의 외래 키를 매핑**하는 것을 말한다.
 
 연관관계는 다음 3가지를 고려해야한다.
@@ -53,7 +56,7 @@ JOIN MEMBER M ON T.TEAM_ID = M.TEAM_ID
 
 **연관관계 주인만이 데이터를 등록, 변경할 수 있으며, 주인이 아닌 객체는 읽기만 가능하다.**
 
-## 단방향 연관관계
+### 단방향 연관관계
 
 _회원과 팀의 관계 예시_
 
@@ -93,7 +96,7 @@ public class Team {
 -   N:1 연관관계를 맺을 때는 @ManyToOne 애노테이션을 사용한다.
 -   외래 키를 매핑할 때는 **@JoinColunm** 애노테이션을 사용하고, **name 옵션에 외래 키 필드 이름을** 넣는다.
 
-## 양방향 연관관계
+### 양방향 연관관계
 
 ![](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbOeAcG%2FbtrzuQXHUh8%2FJdMVzUG9nOCmSOmO6suDf0%2Fimg.png)
 

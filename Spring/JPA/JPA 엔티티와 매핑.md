@@ -1,5 +1,5 @@
 <details>
-<summay>ToC</summary>
+<summary>ToC</summary>
 
 - [엔티티와 매핑](#엔티티와-매핑)
 - [@Entity](#entity)
